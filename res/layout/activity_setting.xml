@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:min="http://schemas.android.com/apk/res/com.min.mobilesafe"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" ><!-- 
+    xmlns:min 自定义的属性，值是：http://schemas.android.com/apk/res/主包名
+    	属性文件放在 values/attrs.xml -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#8866ff00"
+        android:gravity="center"
+        android:text="设置中心"
+        android:textColor="#000000"
+        android:textSize="22sp" />
+    
+    <com.min.mobilesafe.ui.SettingItemView
+        android:id="@+id/setting_item_update"
+        android:layout_width="match_parent"
+        android:layout_height="70dip"
+        min:title="设置是否自动升级"
+        min:descOn="自动升级已开启"
+        min:descOff="自动升级已关闭" /><!-- 
+        title、descOn、descOff 是自定义属性，在values/attrs.xml找的到 -->
+
+</LinearLayout>

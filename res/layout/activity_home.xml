@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#8866ff00"
+        android:gravity="center"
+        android:text="功能列表"
+        android:textColor="#000000"
+        android:textSize="22sp" />
+
+    <com.min.mobilesafe.ui.FocusedTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:text="快来下载啊，下载送妹子啦，快来下载啊，下载送妹子啦，快来下载啊，下载送妹子啦，快来下载啊，下载送妹子啦"
+        android:textSize="18sp" /><!-- 
+        	singleLine 单行
+        	ellipsize 文字过长的显示效果，可以是前省("start")、后省、跑马灯(marquee)等效果，“跑马灯”效果必须是在控件得到焦点的情况下 -->
+
+    <GridView
+        android:id="@+id/home_gv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:numColumns="3"
+        android:verticalSpacing="10dip" /><!-- verticalSpacing 视图间垂直间距 -->
+
+</LinearLayout>

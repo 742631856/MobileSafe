@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root_splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/luncher_bg" >
+
+    <TextView
+        android:id="@+id/tv_splash_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowColor="#00ff00"
+        android:shadowRadius="1"
+        android:text="版本号: 1.0" />
+
+    <ProgressBar
+        android:id="@+id/pb"
+        android:paddingTop="10dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_splash_version"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tv_splash_update_info"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="已下载:0%" /><!-- visibility 是否可见，gone：不可见不占位置 -->
+
+</RelativeLayout>

@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:min="http://schemas.android.com/apk/res/com.min.mobilesafe"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+        style="@style/TextTitleStyle"
+        android:text="4.恭喜您,设置完成" />
+    <CheckBox 
+        android:id="@+id/cb_protecting"
+       	android:layout_width="match_parent"
+       	android:layout_height="wrap_content"
+       	android:text="防盗保护已关闭" />
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible"/>
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible"/>
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_invisible"/>
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/presence_online"/>
+    </LinearLayout>
+    
+    <RelativeLayout 
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/phone"/>
+        <Button style="@style/ButtonPreStyle" /><!-- background用了自定义的按钮状态 -->
+        <Button style="@style/ButtonNextStyle"
+            android:text="设置完成" /><!-- background用了自定义的按钮状态 -->
+    </RelativeLayout>
+
+</LinearLayout>
