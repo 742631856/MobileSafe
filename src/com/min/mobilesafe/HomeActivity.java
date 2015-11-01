@@ -1,10 +1,10 @@
 package com.min.mobilesafe;
 
-import com.min.mobilesafe.utils.MD5Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -24,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.min.mobilesafe.receiver.AdminReceiver;
+import com.min.mobilesafe.utils.MD5Utils;
+
 /**
  * 主菜单界面
  * @author min
@@ -32,6 +35,8 @@ import android.widget.Toast;
 public class HomeActivity extends Activity {
 	
 	protected static final String TAG = "HomeActivity";
+
+	private static final int REQUEST_CODE_ENABLE_ADMIN = 1101;
 
 	private static String funs[] = {
 		"手机防盗", "通讯卫士", "软件管理",
@@ -79,6 +84,8 @@ public class HomeActivity extends Activity {
 				}
 			}
 		});
+		
+		addAdmin();
 	}
 	
 	/**
@@ -204,6 +211,29 @@ public class HomeActivity extends Activity {
 	private boolean isSetupPwd() {
 		String pwd = sp.getString(SPKeys.KEY_PASSWORD, "");
 		return !TextUtils.isEmpty(pwd);
+	}
+	
+	/**
+	 * 添加管理员
+	 */
+	private void addAdmin() {
+		ComponentName deviceAdmin = new ComponentName(this, AdminReceiver.class);
+		DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+		if (!dpm.isAdminActive(deviceAdmin)) {	//当MSDeviceAdminReceiver不是管理员的时候，就要去请求激活
+			Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+	        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, deviceAdmin);
+	        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
+	                getString(R.string.device_admin_description));
+	        startActivityForResult(intent, REQUEST_CODE_ENABLE_ADMIN);
+		}
+		//在卸载这个app前要移除管理员，不然无法卸载
+//		dpm.removeActiveAdmin(deviceAdmin);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		Log.i("--->", "--->" + resultCode + "--" + data);
+		//resultCode：0、表示未激活，-1、表示激活
 	}
 
 	class MyAdapter extends BaseAdapter {

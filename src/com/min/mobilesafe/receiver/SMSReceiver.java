@@ -1,10 +1,8 @@
 package com.min.mobilesafe.receiver;
 
-import com.min.mobilesafe.R;
-import com.min.mobilesafe.SPKeys;
-import com.min.mobilesafe.service.GPSService;
-
+import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +11,10 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.min.mobilesafe.R;
+import com.min.mobilesafe.SPKeys;
+import com.min.mobilesafe.service.GPSService;
 
 /**
  * 
@@ -67,14 +69,32 @@ public class SMSReceiver extends BroadcastReceiver {
 				
 			} else if ("#*wipedata*#".equals(msg)) {	//销毁数据
 				Log.i("--->", "SMSReceiver : 销毁数据");
-				
+				DevicePolicyManager dpm = getDPM(context);
+				if (null != dpm) {
+//					dpm.wipeData(DevicePolicyManager.WIPE_EXTERNAL_STORAGE);//销毁内存卡数据
+					dpm.wipeData(0);//恢复出厂设置
+				}
 				abortBroadcast();
 				
 			} else if ("#*lockscreen*#".equals(msg)) {	//锁屏
 				Log.i("--->", "SMSReceiver : 锁屏");
-				
+				DevicePolicyManager dpm = getDPM(context);
+				if (null != dpm) {
+					dpm.resetPassword("123", 0);
+//					dpm.resetPassword("", 0);//清除锁屏密码
+					dpm.lockNow();//锁屏
+				}
 				abortBroadcast();
 			}
 		}
+	}
+	
+	private DevicePolicyManager getDPM(Context context) {
+		DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+		ComponentName componentName = new ComponentName(context, AdminReceiver.class);
+		if (dpm.isAdminActive(componentName)) {//检查管理员是不是被激活了
+			return null;
+		}
+		return dpm;
 	}
 }
