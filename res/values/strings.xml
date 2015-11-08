@@ -9,5 +9,11 @@
     <string name="title_activity_setup1">Setup1Activity</string>
     <string name="device_admin">MobileSafe设备管理器</string>
     <string name="device_admin_description">激活才能远程销毁数据和锁屏</string>
-    
+    <string name="atools_title">高级工具</string>
+    <string name="lost_find_title">手机防盗</string>
+    <string name="safe_number">安全号码</string>
+    <string name="title_activity_number_address_query">号码归属地查询</string>
+    <string name="enter_phone">请输入号码</string>
+    <string name="query">查询</string>
+
 </resources>

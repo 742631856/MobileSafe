@@ -72,6 +72,9 @@ public class HomeActivity extends Activity {
 					int position, long id) {
 				Intent intent = null;
 				switch (position) {
+				case 7://高级工具
+					intent = new Intent(HomeActivity.this, AToolsActivity.class);
+					break;
 				case 8:	//设置
 					intent = new Intent(HomeActivity.this, SettingActivity.class);
 					break;

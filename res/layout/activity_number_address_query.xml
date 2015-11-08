@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+        style="@style/TextTitleStyle"
+        android:text="@string/title_activity_number_address_query" />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:inputType="phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:hint="@string/enter_phone" >
+    	<requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/btn_query"
+        android:onClick="query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/query" />
+
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查询结果" />
+
+</LinearLayout>
