@@ -1,7 +1,9 @@
 package com.min.mobilesafe;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -113,8 +115,37 @@ public class SplashActivity extends Activity {
 				Animation.RELATIVE_TO_PARENT, 0);
 		tsa.setDuration(4000);*/
 		findViewById(R.id.rl_root_splash).startAnimation(aa);	//动画有效，可以作为“视图切换”动画
+		
+		copyDB();
 	}
 	
+	/**
+	 * 从assets文件夹下拷贝数据库到源码文件夹下, 在这之前要先将外部数据库文件拷贝到assets文件夹下
+	 */
+	private void copyDB() {
+		File file = new File(getFilesDir(), "address.db");
+		if (null != file && file.length() > 0) {	//已经拷贝过了
+			return;
+		}
+		
+		try {
+			InputStream is = getAssets().open("address.db");
+			FileOutputStream fos = new FileOutputStream(file);
+			byte[] bt = new byte[1024];
+			int len = 0;
+			while ((len = is.read(bt)) != -1) {
+				fos.write(bt, 0, len);
+			}
+			is.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 显示升级弹出框
+	 */
 	protected void showUpdateDailog() {
 //		getApplicationContext() 不能用在Builder中, 在这里的两种context是有区别的
 		AlertDialog.Builder builder = new Builder(this)

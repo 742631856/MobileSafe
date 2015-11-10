@@ -1,5 +1,7 @@
 package com.min.mobilesafe;
 
+import com.min.mobilesafe.db.dao.NumberAddressQueryUtils;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,6 +30,7 @@ public class NumberAddressQueryActivity extends Activity {
 		if (TextUtils.isEmpty(phone)) {
 			Toast.makeText(this, "请输入要查询的号码", Toast.LENGTH_LONG).show();
 		} else {
+			tvResult.setText(NumberAddressQueryUtils.queryNumber(phone, getFilesDir().getAbsolutePath() + "/address.db"));
 			Log.i("--->", "--->查询" + phone);
 		}
 	}
