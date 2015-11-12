@@ -51,7 +51,8 @@
         <activity android:name="com.min.mobilesafe.Setup4Activity" />
         <activity android:name="com.min.mobilesafe.SelectContactActivity" />
         <activity android:name="com.min.mobilesafe.AToolsActivity" />
-
+        <activity android:name="com.min.mobilesafe.NumberAddressQueryActivity" />
+        
         <service android:name="com.min.mobilesafe.service.GPSService" />
 
         <receiver android:name="com.min.mobilesafe.receiver.BootCompleteReceiver" >
@@ -83,11 +84,6 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name="com.min.mobilesafe.NumberAddressQueryActivity"
-            android:label="@string/title_activity_number_address_query" >
-        </activity>
     </application>
 
 </manifest>

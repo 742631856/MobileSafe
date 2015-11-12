@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:maxLength="18"
         android:hint="@string/enter_phone" >
     	<requestFocus />
     </EditText>
