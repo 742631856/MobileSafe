@@ -15,5 +15,6 @@
     <string name="title_activity_number_address_query">号码归属地查询</string>
     <string name="enter_phone">请输入号码</string>
     <string name="query">查询</string>
+    <string name="title_setting_center">设置中心</string>
 
 </resources>

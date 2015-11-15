@@ -16,12 +16,10 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 允许一个程序访问精良位置(如GPS) -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 允许一个程序访问CellID或WiFi热点来获取粗略的位置 -->
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-    <!-- 允许程序创建模拟位置提供用于测试 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /><!-- 允许一个程序访问精良位置(如GPS) -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /><!-- 允许一个程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" /><!-- 允许程序创建模拟位置提供用于测试 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -41,8 +39,7 @@
         </activity>
         <activity
             android:name="com.min.mobilesafe.HomeActivity"
-            android:exported="false" />
-        <!-- exported参数是表示是否暴露给外部应用，提交到软件中心时会用到 -->
+            android:exported="false" /><!-- exported参数是表示是否暴露给外部应用，提交到软件中心时会用到 -->
         <activity android:name="com.min.mobilesafe.SettingActivity" />
         <activity android:name="com.min.mobilesafe.LostFindActivity" />
         <activity android:name="com.min.mobilesafe.Setup1Activity" />
@@ -54,18 +51,16 @@
         <activity android:name="com.min.mobilesafe.NumberAddressQueryActivity" />
         
         <service android:name="com.min.mobilesafe.service.GPSService" />
+        <service android:name="com.min.mobilesafe.service.AddressService" />
 
         <receiver android:name="com.min.mobilesafe.receiver.BootCompleteReceiver" >
             <intent-filter>
-
                 <!-- 监听手机启动完成 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver android:name="com.min.mobilesafe.receiver.SMSReceiver" >
-            <intent-filter android:priority="1000" >
-
-                <!-- 监听手机收到短信, 优先级设置为最大 -->
+            <intent-filter android:priority="1000" > <!-- 监听手机收到短信, 优先级设置为最大 -->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
@@ -74,12 +69,10 @@
             android:description="@string/device_admin_description"
             android:label="@string/device_admin"
             android:permission="android.permission.BIND_DEVICE_ADMIN" >
-
             <!-- 监听设备管理器的状态 -->
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/device_admin" />
-
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>

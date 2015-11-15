@@ -1,14 +1,16 @@
 package com.min.mobilesafe;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.min.mobilesafe.service.AddressService;
 import com.min.mobilesafe.ui.SettingItemView;
+import com.min.mobilesafe.utils.ServiceUtils;
 
 /**
  * 设置界面
@@ -18,9 +20,14 @@ import com.min.mobilesafe.ui.SettingItemView;
 public class SettingActivity extends Activity {
 	
 	private SharedPreferences sp;
+	
+	//设置自动更新
 	private SettingItemView sivUpdate;
+	//设置显示来电归属地
+	private SettingItemView sivAddress;
+	//
 
-	@SuppressLint("CommitPrefEdits")
+//	@SuppressLint("CommitPrefEdits")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +52,27 @@ public class SettingActivity extends Activity {
 					editor.putBoolean(SPKeys.KEY_AUTO_UPDATE, true);
 				}
 				editor.commit();//一定要提交不然没法保存到本地
+			}
+		});
+		
+		boolean isRunning = ServiceUtils.isServiceRunning(this, AddressService.class.getName());
+		sivAddress = (SettingItemView) findViewById(R.id.setting_item_show_address);
+		if (isRunning) {
+			sivAddress.setChecked(true);
+		}
+		sivAddress.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (sivAddress.isChecked()) {
+					sivAddress.setChecked(false);//这里要不要停止服务
+				} else {
+					sivAddress.setChecked(true);
+					boolean isRunning = ServiceUtils.isServiceRunning(SettingActivity.this, AddressService.class.getName());
+					if (!isRunning) {
+						Intent intent = new Intent(SettingActivity.this, AddressService.class);
+						startService(intent);
+					}
+				}
 			}
 		});
 	}

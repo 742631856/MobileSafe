@@ -14,7 +14,7 @@
         android:layout_height="55dp"
         android:background="#8866ff00"
         android:gravity="center"
-        android:text="设置中心"
+        android:text="@string/title_setting_center"
         android:textColor="#000000"
         android:textSize="22sp" />
     
@@ -26,5 +26,13 @@
         min:descOn="自动升级已开启"
         min:descOff="自动升级已关闭" /><!-- 
         title、descOn、descOff 是自定义属性，在values/attrs.xml找的到 -->
+        
+	<com.min.mobilesafe.ui.SettingItemView
+        android:id="@+id/setting_item_show_address"
+        android:layout_width="match_parent"
+        android:layout_height="70dip"
+        min:title="设置是否显示号码归属地"
+        min:descOn="已开启"
+        min:descOff="已关闭" />
 
 </LinearLayout>
