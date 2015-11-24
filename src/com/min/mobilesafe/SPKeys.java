@@ -33,4 +33,8 @@ public interface SPKeys {
 	 * 位置信息
 	 */
 	String KEY_LOCATION = "location";
+	/**
+	 * 归属地显示框背景样式
+	 */
+	String KEY_ADDRESS_SHOW_BG_STYLE = "addressShowBgStyle";
 }

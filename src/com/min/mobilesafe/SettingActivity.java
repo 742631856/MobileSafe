@@ -1,6 +1,8 @@
 package com.min.mobilesafe;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.min.mobilesafe.service.AddressService;
+import com.min.mobilesafe.ui.SettingClickView;
 import com.min.mobilesafe.ui.SettingItemView;
 import com.min.mobilesafe.utils.ServiceUtils;
 
@@ -25,6 +28,10 @@ public class SettingActivity extends Activity {
 	private SettingItemView sivUpdate;
 	//设置显示来电归属地
 	private SettingItemView sivAddress;
+	//归属地显示框的风格切换按钮
+	private SettingClickView scvChangeBg;
+	//归属地显示框的风格
+	private String items[] = new String[]{"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"};
 	//开启服务的意图
 	private Intent intent;
 
@@ -75,6 +82,30 @@ public class SettingActivity extends Activity {
 						startService(intent);
 					}
 				}
+			}
+		});
+		
+		scvChangeBg = (SettingClickView) findViewById(R.id.scv_change_bg);
+		int swi = sp.getInt(SPKeys.KEY_ADDRESS_SHOW_BG_STYLE, 0);
+		scvChangeBg.setDesc(items[swi]);
+		scvChangeBg.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int swi = sp.getInt(SPKeys.KEY_ADDRESS_SHOW_BG_STYLE, 0);
+				new AlertDialog.Builder(SettingActivity.this)
+				.setTitle("归属地提示框风格")
+				.setSingleChoiceItems(items, swi, new AlertDialog.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Editor edit = sp.edit();
+						edit.putInt(SPKeys.KEY_ADDRESS_SHOW_BG_STYLE, which);
+						edit.commit();
+						scvChangeBg.setDesc(items[which]);
+						dialog.dismiss();
+					}
+				})
+				.setPositiveButton("取消", null)
+				.show();
 			}
 		});
 	}

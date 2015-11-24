@@ -34,5 +34,11 @@
         min:title="设置是否显示号码归属地"
         min:descOn="已开启"
         min:descOff="已关闭" />
+	
+	<com.min.mobilesafe.ui.SettingClickView
+        android:id="@+id/scv_change_bg"
+        android:layout_width="match_parent"
+        android:layout_height="70dip"
+        min:title="归属地提示框风格" />
 
 </LinearLayout>
