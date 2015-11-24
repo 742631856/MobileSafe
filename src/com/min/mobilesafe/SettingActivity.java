@@ -25,14 +25,17 @@ public class SettingActivity extends Activity {
 	private SettingItemView sivUpdate;
 	//设置显示来电归属地
 	private SettingItemView sivAddress;
-	//
+	//开启服务的意图
+	private Intent intent;
 
 //	@SuppressLint("CommitPrefEdits")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
+		intent = new Intent(SettingActivity.this, AddressService.class);
 		sp = getSharedPreferences(SPKeys.KEY_SP_NAME, MODE_PRIVATE);
+		
 		boolean isAutoUpdate = sp.getBoolean(SPKeys.KEY_AUTO_UPDATE, false);
 		
 		sivUpdate = (SettingItemView) findViewById(R.id.setting_item_update);
@@ -55,25 +58,36 @@ public class SettingActivity extends Activity {
 			}
 		});
 		
-		boolean isRunning = ServiceUtils.isServiceRunning(this, AddressService.class.getName());
 		sivAddress = (SettingItemView) findViewById(R.id.setting_item_show_address);
-		if (isRunning) {
-			sivAddress.setChecked(true);
-		}
 		sivAddress.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (sivAddress.isChecked()) {
 					sivAddress.setChecked(false);//这里要不要停止服务
+					boolean isRunning = ServiceUtils.isServiceRunning(SettingActivity.this, AddressService.class.getName());
+					if (isRunning) {
+						stopService(intent);
+					}
 				} else {
 					sivAddress.setChecked(true);
 					boolean isRunning = ServiceUtils.isServiceRunning(SettingActivity.this, AddressService.class.getName());
 					if (!isRunning) {
-						Intent intent = new Intent(SettingActivity.this, AddressService.class);
 						startService(intent);
 					}
 				}
 			}
 		});
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//每次回到前台的时候都要检查服务是否在运行
+		boolean isRunning = ServiceUtils.isServiceRunning(this, AddressService.class.getName());
+		if (isRunning) {
+			sivAddress.setChecked(true);
+		} else {
+			sivAddress.setChecked(false);
+		}
 	}
 }
