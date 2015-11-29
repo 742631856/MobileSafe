@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
@@ -15,11 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.min.mobilesafe.R;
+import com.min.mobilesafe.SPKeys;
 import com.min.mobilesafe.db.dao.NumberAddressQueryUtils;
 
 public class AddressService extends Service {
 	
 	private String databasePath = null;
+	private SharedPreferences sp;
 	private TelephonyManager tm;
 	private MyPhoneStateListener listener;
 	private OutCallReceiver receiver;
@@ -27,6 +30,14 @@ public class AddressService extends Service {
 	private WindowManager wm;
 	//
 	private View view;
+	//"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"
+	private int imageRes[] = {
+		R.drawable.call_locate_white,
+		R.drawable.call_locate_orange,
+		R.drawable.call_locate_blue,
+		R.drawable.call_locate_gray,
+		R.drawable.call_locate_green
+	};
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -37,6 +48,7 @@ public class AddressService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		databasePath = getFilesDir().getAbsolutePath() + "/address.db";
+		sp = getSharedPreferences(SPKeys.KEY_SP_NAME, MODE_PRIVATE);
 		wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 		
 		tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
@@ -89,10 +101,11 @@ public class AddressService extends Service {
 	 */
 	private void myToast(String address) {
 		view = View.inflate(this, R.layout.address_show, null);
-		view.setBackgroundResource(R.drawable.call_locate_blue);
+		//获取保存的图片的风格下标
+		int index = sp.getInt(SPKeys.KEY_ADDRESS_SHOW_BG_STYLE, 0);
+		view.setBackgroundResource(imageRes[index]);
 		TextView tv = (TextView) view.findViewById(R.id.tv);
 		tv.setText(address);
-		tv.setTextSize(22);
 		
 		//参数
 		WindowManager.LayoutParams params = new WindowManager.LayoutParams();
