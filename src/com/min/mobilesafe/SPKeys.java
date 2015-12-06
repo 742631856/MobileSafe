@@ -37,4 +37,12 @@ public interface SPKeys {
 	 * 归属地显示框背景样式
 	 */
 	String KEY_ADDRESS_SHOW_BG_STYLE = "addressShowBgStyle";
+	/**
+	 * 归属地显示框上次显示的x坐标
+	 */
+	String KEY_ADDRESS_SHOW_X = "addressShowX";
+	/**
+	 * 归属地显示框上次显示的y坐标
+	 */
+	String KEY_ADDRESS_SHOW_Y = "addressShowY";
 }
