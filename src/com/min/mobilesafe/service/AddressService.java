@@ -20,7 +20,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.min.mobilesafe.R;
 import com.min.mobilesafe.SPKeys;
@@ -122,7 +121,7 @@ public class AddressService extends Service {
 			        params.x = (wm.getDefaultDisplay().getWidth() - view.getWidth())/2;//距窗体左边100个像素
 			        params.y = (wm.getDefaultDisplay().getHeight() - view.getHeight())/2;
 			        wm.updateViewLayout(view, params);//更新视图
-			        
+//			        view.layout(l, t, r, b);
 			        Editor edit = sp.edit();
 					edit.putInt(SPKeys.KEY_ADDRESS_SHOW_X, params.x);
 					edit.putInt(SPKeys.KEY_ADDRESS_SHOW_Y, params.y);

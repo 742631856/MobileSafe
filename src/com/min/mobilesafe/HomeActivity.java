@@ -72,14 +72,17 @@ public class HomeActivity extends Activity {
 					int position, long id) {
 				Intent intent = null;
 				switch (position) {
+				case 0:
+					showLostFindDailog();
+					break;
+				case 1://通讯卫士
+					intent = new Intent(HomeActivity.this, CallSmsSafeActivity.class);
+					break;
 				case 7://高级工具
 					intent = new Intent(HomeActivity.this, AToolsActivity.class);
 					break;
 				case 8:	//设置
 					intent = new Intent(HomeActivity.this, SettingActivity.class);
-					break;
-				case 0:
-					showLostFindDailog();
 					break;
 				}
 				if (null != intent) {
