@@ -17,5 +17,6 @@
     <string name="query">查询</string>
     <string name="title_setting_center">设置中心</string>
     <string name="title_call_sms">黑名单拦截</string>
+    <string name="add">添加</string>
 
 </resources>

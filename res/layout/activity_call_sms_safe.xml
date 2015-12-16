@@ -6,10 +6,20 @@
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <TextView
-        style="@style/TextTitleStyle"
-        android:text="@string/title_call_sms" />
-
+    <RelativeLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content" >
+	    <TextView
+	        style="@style/TextTitleStyle"
+	        android:text="@string/title_call_sms" />
+	    <Button 
+	        android:id="@+id/btn_add"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:layout_alignParentRight="true"
+		    android:text="@string/add"/>
+    </RelativeLayout>
     <ListView
         android:id="@+id/lv_number"
         android:layout_width="match_parent"

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dip"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:background="#66ff6600"
+        android:text="添加黑名单" />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:ems="10"
+        android:inputType="phone"
+        android:hint="请输入电话号码" >
+
+        <requestFocus />
+    </EditText>
+    <LinearLayout 
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <CheckBox 
+            android:id="@+id/cb_phone"
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:text="拦截电话"/>
+        <CheckBox 
+            android:id="@+id/cb_sms"
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:text="拦截短信"/>
+    </LinearLayout>
+    <LinearLayout 
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <Button 
+            android:id="@+id/btn_cancel"
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:text="取消"/>
+        <Button 
+            android:id="@+id/btn_ok"
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:text="确定"/>
+    </LinearLayout>
+
+</LinearLayout>
