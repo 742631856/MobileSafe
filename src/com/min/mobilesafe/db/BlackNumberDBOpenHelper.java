@@ -4,6 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * 黑名单数据库工具
+ * @author min
+ *
+ */
 public class BlackNumberDBOpenHelper extends SQLiteOpenHelper {
 
 	/**

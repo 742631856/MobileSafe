@@ -11,6 +11,11 @@ import android.database.sqlite.SQLiteDatabase;
 import com.min.mobilesafe.db.BlackNumberDBOpenHelper;
 import com.min.mobilesafe.domain.BlackNumberInfo;
 
+/**
+ * 黑名单DAO
+ * @author min
+ *
+ */
 public class BlackNumberDao {
 
 	private BlackNumberDBOpenHelper helper;
@@ -40,6 +45,23 @@ public class BlackNumberDao {
 		ContentValues values = new ContentValues();
 		values.put("mode", mode);
 		db.update("blacknumber", values, "number = ?", new String[]{number});
+	}
+	
+	/**
+	 * 获取拦截的模式
+	 * @param number 电话号码
+	 * @return null或者“1”电话“2”短信“3”全部
+	 */
+	public String findMode(String number) {
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor = db.query("blacknumber", new String[]{"mode"}, "number = ?", new String[]{number}, null, null, null);
+		String mode = null;
+		if (cursor.moveToNext()) {
+			mode = cursor.getString(0);
+		}
+		cursor.close();
+		db.close();
+		return mode;
 	}
 	
 	public boolean find(String number) {

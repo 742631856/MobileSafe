@@ -25,6 +25,11 @@ import com.min.mobilesafe.R;
 import com.min.mobilesafe.SPKeys;
 import com.min.mobilesafe.db.dao.NumberAddressQueryUtils;
 
+/**
+ * 来去电号码地址显示服务
+ * @author min
+ *
+ */
 public class AddressService extends Service {
 	
 	private String databasePath = null;

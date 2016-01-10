@@ -1,5 +1,10 @@
 package com.min.mobilesafe.domain;
 
+/**
+ * 黑名单实体类
+ * @author min
+ *
+ */
 public class BlackNumberInfo {
 
 	private String number;

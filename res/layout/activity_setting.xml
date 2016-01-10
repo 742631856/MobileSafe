@@ -40,5 +40,13 @@
         android:layout_width="match_parent"
         android:layout_height="70dip"
         min:title="归属地提示框风格" />
+	
+	<com.min.mobilesafe.ui.SettingItemView
+        android:id="@+id/setting_item_callsms_safe"
+        android:layout_width="match_parent"
+        android:layout_height="70dip"
+        min:title="设置黑名单拦截"
+        min:descOn="已开启"
+        min:descOff="已关闭" />
 
 </LinearLayout>

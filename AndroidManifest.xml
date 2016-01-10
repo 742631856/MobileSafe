@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:allowBackup="true"
@@ -59,6 +60,7 @@
 
         <service android:name="com.min.mobilesafe.service.GPSService" />
         <service android:name="com.min.mobilesafe.service.AddressService" />
+        <service android:name="com.min.mobilesafe.service.CallSmsSafeService" />
 
         <receiver android:name="com.min.mobilesafe.receiver.BootCompleteReceiver" >
             <intent-filter>
