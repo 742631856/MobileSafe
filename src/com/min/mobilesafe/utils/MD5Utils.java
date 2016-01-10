@@ -18,11 +18,12 @@ public class MD5Utils {
 			StringBuilder sb = new StringBuilder();
 			for (byte b : result) {
 				int num = b & 0xff;	//和0xff 做与运算是 标准的md5，和0xfff 或其他的做 叫加盐
-				String str = Integer.toHexString(num);
+/*				String str = Integer.toHexString(num);
 				if (str.length() == 1) {	//只有一位，在前面添0
 					sb.append("0");
 				}
-				sb.append(str);
+				sb.append(str);*///被下面的代替
+				sb.append(String.format("%02x", num));
 			}
 			
 			return sb.toString();
