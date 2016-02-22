@@ -7,6 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsMessage;
@@ -23,6 +26,8 @@ import com.min.mobilesafe.db.dao.BlackNumberDao;
  *
  */
 public class CallSmsSafeService extends Service {
+	
+//	private static final String TAG = "CallSmsSafeService";
 	
 	BlackNumberDao blackDao;
 	private InnerSmsReciever smsReciever;//短信监听器
@@ -93,6 +98,10 @@ public class CallSmsSafeService extends Service {
 		public void onCallStateChanged(int state, String incomingNumber) {
 			String mode = blackDao.findMode(incomingNumber);
 			if ("1".equals(mode) || "3".equals(mode)) {
+				//监听呼叫记录的数据库变化
+				Uri uri = Uri.parse("content://call_log/calls");
+				getContentResolver().registerContentObserver(uri, true, new CallLogObserver(incomingNumber, new Handler()));
+				
 				Log.i("--->", "--->挂断电话...");
 				Toast.makeText(CallSmsSafeService.this, "挂断电话...", Toast.LENGTH_SHORT).show();
 //				tm.endCall();	//这个方法被隐藏到了，无法直接调用，放到了隐藏的ITelephony类中
@@ -101,6 +110,9 @@ public class CallSmsSafeService extends Service {
 			}
 		}
 		
+		/**
+		 * 挂断电话
+		 */
 		private void endCall() {
 			//需要权限CALL_PHONE
 			try {
@@ -121,6 +133,36 @@ public class CallSmsSafeService extends Service {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} 
+		}
+		
+		/**
+		 * 呼叫记录数据库 观察者
+		 * @author min
+		 *
+		 */
+		private class CallLogObserver extends ContentObserver {
+			private String incomingNumber;
+			public CallLogObserver(String incomingNumber, Handler handler) {
+				super(handler);
+				this.incomingNumber = incomingNumber;
+			}
+
+			@Override
+			public void onChange(boolean selfChange) {
+				//删除观察者
+				Log.i("--->", "--->CallSmsSafeService : 删除通话记录");
+				getContentResolver().unregisterContentObserver(this);
+				deleteCallLog(incomingNumber);
+			}
+		}
+		
+		/**
+		 * 删除通话记录,需要权限
+		 * @param incomingNumber
+		 */
+		private void deleteCallLog(String incomingNumber) {
+			Uri uri = Uri.parse("content://call_log/calls");//CallLog.Calls.CONTENT_URI;
+			getContentResolver().delete(uri, "number=?", new String[]{incomingNumber});
 		}
 	}
 }

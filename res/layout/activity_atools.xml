@@ -17,5 +17,19 @@
         android:onClick="numberQuery"
         android:text="号码归属地查询"
         android:textSize="20sp" />
+    <TextView
+        style="@style/TextContentStyle"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:clickable="true"
+        android:onClick="smsBackup"
+        android:text="备份短信"
+        android:textSize="20sp" />
+    <TextView
+        style="@style/TextContentStyle"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:clickable="true"
+        android:onClick="smsRestore"
+        android:text="还原短信"
+        android:textSize="20sp" />
 
 </LinearLayout>
