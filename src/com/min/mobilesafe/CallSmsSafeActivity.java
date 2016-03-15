@@ -6,9 +6,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,8 +27,12 @@ import com.min.mobilesafe.domain.BlackNumberInfo;
 public class CallSmsSafeActivity extends Activity {
 	
 	private ListView listView;
+	private BlackNumberDao blackNumDao;
 	private List<BlackNumberInfo> infos;
 	private MyListAdapter adapter;
+	
+	private int offset;	//已经了多少个数据了
+	private int len;	//每次加载多少个
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +40,48 @@ public class CallSmsSafeActivity extends Activity {
 		setContentView(R.layout.activity_call_sms_safe);
 		
 		listView = (ListView) findViewById(R.id.lv_number);
-		infos = new BlackNumberDao(this).findAll();
+		
+		listView.setOnScrollListener(new OnScrollListener() {
+			
+			//滚动状态发生变化的时候
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				switch (scrollState) {
+					case OnScrollListener.SCROLL_STATE_IDLE:			//空闲状态
+						if (view.getLastVisiblePosition() == offset-1) {
+							loadData();
+//							Log.i("--->", "--->加载新的");
+						}
+						break;
+					case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:	//手指触摸滚动状态
+						break;
+					case OnScrollListener.SCROLL_STATE_FLING:			//惯性滑动状态
+						break;
+					default:
+						break;
+				}
+			}
+			
+			//正在滚动的时候
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				if ((firstVisibleItem + visibleItemCount) == offset) {
+//					loadData();
+					Log.i("--->", "--->加载新的");
+				}
+//				Log.i("--->", "--->第一个可见的" + firstVisibleItem);
+//				Log.i("--->", "--->一共可见的" + visibleItemCount);
+//				Log.i("--->", "--->最后可见的" + view.getLastVisiblePosition());
+			}
+		});
+		
 		adapter = new MyListAdapter();
-		listView.setAdapter(adapter);
+		blackNumDao = new BlackNumberDao(this);
+		offset = 0;
+		len = 20;
+		loadData();
+		
 		//添加黑名单按钮
 		Button btnAdd = (Button) findViewById(R.id.btn_add);
 		btnAdd.setOnClickListener(new OnClickListener() {
@@ -45,6 +91,33 @@ public class CallSmsSafeActivity extends Activity {
 				addBlackNumber(v);
 			}
 		});
+	}
+	
+	public void loadData() {
+		new Thread() {
+			@Override
+			public void run() {
+				if (null == infos) {
+					infos = blackNumDao.findPart(offset, len);
+					offset = infos.size();
+					runOnUiThread(new Runnable() {
+						public void run() {
+							listView.setAdapter(adapter);
+						}
+					});
+				} else {
+					infos.addAll(blackNumDao.findPart(offset, len));
+					if (infos.size() > offset) {
+						offset = infos.size();
+						runOnUiThread(new Runnable() {
+							public void run() {
+								adapter.notifyDataSetChanged();
+							}
+						});
+					}
+				}
+			};
+		}.start();
 	}
 	
 	public void addBlackNumber(View view) {

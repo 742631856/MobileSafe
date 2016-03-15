@@ -92,4 +92,27 @@ public class BlackNumberDao {
 		db.close();
 		return list;
 	}
+	
+	/**
+	 * 获取部分
+	 * @param offset 开始位置
+	 * @param len 要获取的数量
+	 * @return 黑名单实例List
+	 */
+	public List<BlackNumberInfo> findPart(int offset, int len) {
+		List<BlackNumberInfo> list = new ArrayList<>();//jdk7
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select number, mode from blacknumber order by _id desc limit ? offset ?",
+				new String[]{String.valueOf(len), String.valueOf(offset)});
+		BlackNumberInfo info = null;
+		while (cursor.moveToNext()) {
+			String num = cursor.getString(0);
+			String mode = cursor.getString(1);
+			info = new BlackNumberInfo(num, mode);
+			list.add(info);
+		}
+		cursor.close();
+		db.close();
+		return list;
+	}
 }

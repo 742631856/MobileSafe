@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -17,6 +18,7 @@ public class SmsUtils {
 	/**
 	 * 备份短信
 	 * @param context 上下文
+	 * @param callBack 备份过程中的回调接口
 	 * @throws Exception
 	 */
 	public static void smsBackup(Context context, SmsBackupCallBack callBack) throws Exception {
@@ -30,8 +32,11 @@ public class SmsUtils {
 		ContentResolver resolver = context.getContentResolver();
 		Uri uri = Uri.parse("content://sms");
 		Cursor cursor = resolver.query(uri, new String[]{"body", "date", "type", "address"}, null, null, null);
+		int max = cursor.getCount();
 		//接口调用
-		callBack.beforeBackup(cursor.getCount());//总条数
+		callBack.beforeBackup(max);//总条数
+		//
+		smsSerializer.attribute(null, "max", max+"");//短信的总条数
 		//当前备份到第几条
 		int current = 0;
 		while (cursor.moveToNext()) {
@@ -82,5 +87,32 @@ public class SmsUtils {
 		 * @param current 当前备份到第几条
 		 */
 		void onBackup(int current);
+	}
+	
+	/**
+	 * 恢复短信
+	 * @param context 上下文
+	 * @param flag 是否清除已有的短信
+	 * @param callBack 恢复过程中回调接口
+	 */
+	public static void smsRestore(Context context, boolean flag, SmsRestoreCallback callBack) {
+		ContentResolver resolver = context.getContentResolver();
+		Uri uri = Uri.parse("content://sms");
+		if (flag) {
+			resolver.delete(uri, null, null);
+		}
+		
+		ContentValues values = new ContentValues();
+		values.put("body", "消息体");
+		values.put("date", "");
+		values.put("type", "1");
+		values.put("address", "5556");
+		resolver.insert(uri, values);//
+		
+		
+	}
+	
+	public interface SmsRestoreCallback {
+		
 	}
 }

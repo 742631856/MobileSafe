@@ -78,6 +78,9 @@ public class HomeActivity extends Activity {
 				case 1://通讯卫士
 					intent = new Intent(HomeActivity.this, CallSmsSafeActivity.class);
 					break;
+				case 2://软件管理
+					intent = new Intent(HomeActivity.this, AppManagerActivity.class);
+					break;
 				case 7://高级工具
 					intent = new Intent(HomeActivity.this, AToolsActivity.class);
 					break;

@@ -3,7 +3,8 @@
     package="com.min.mobilesafe"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	<!-- installLocation="preferExternal" 优先考虑安装在外部存储 -->
+	
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
@@ -17,19 +18,19 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
- <!-- 允许一个程序访问精良位置(如GPS) -->
+    <!-- 允许一个程序访问精良位置(如GPS) -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
- <!-- 允许一个程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <!-- 允许一个程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
- <!-- 允许程序创建模拟位置提供用于测试 -->
+    <!-- 允许程序创建模拟位置提供用于测试 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
 
     <application
         android:allowBackup="true"
@@ -50,7 +51,7 @@
         <activity
             android:name="com.min.mobilesafe.HomeActivity"
             android:exported="false" />
- <!-- exported参数是表示是否暴露给外部应用，提交到软件中心时会用到 -->
+        <!-- exported参数是表示是否暴露给外部应用，提交到软件中心时会用到 -->
         <activity android:name="com.min.mobilesafe.SettingActivity" />
         <activity android:name="com.min.mobilesafe.LostFindActivity" />
         <activity android:name="com.min.mobilesafe.Setup1Activity" />
@@ -61,6 +62,9 @@
         <activity android:name="com.min.mobilesafe.AToolsActivity" />
         <activity android:name="com.min.mobilesafe.NumberAddressQueryActivity" />
         <activity android:name="com.min.mobilesafe.CallSmsSafeActivity" />
+        <activity
+            android:name="com.min.mobilesafe.AppManagerActivity"
+            android:label="@string/title_activity_app_manager" />
 
         <service android:name="com.min.mobilesafe.service.GPSService" />
         <service android:name="com.min.mobilesafe.service.AddressService" />
@@ -75,7 +79,8 @@
         </receiver>
         <receiver android:name="com.min.mobilesafe.receiver.SMSReceiver" >
             <intent-filter android:priority="1000" >
- <!-- 监听手机收到短信, 优先级设置为最大 -->
+
+                <!-- 监听手机收到短信, 优先级设置为最大 -->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
@@ -94,7 +99,6 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
