@@ -42,7 +42,7 @@ public class AppManagerActivity extends Activity {
 	/**
 	 * 弹出框显示的类容
 	 */
-	private TextView tvPop = null;
+//	private TextView tvPop = null;
 	private PopupWindow popWin;
 	
 	
@@ -95,17 +95,17 @@ public class AppManagerActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				
-				AppInfo appInfo = null;
+				/*AppInfo appInfo = null;
 				if (0 == position || sysAppInfos.size() + 1 == position) {
 					return;
 				} else if (position <= sysAppInfos.size()) {
 					appInfo = sysAppInfos.get(position - 1);
 				} else {
 					appInfo = userAppInfos.get(position - 1 - sysAppInfos.size() - 1);
-				}
+				}*/
 				dismissPopWindow();	//去掉以前的
 				
-				tvPop.setText(appInfo.packName);
+//				tvPop.setText(appInfo.packName);
 				int location[] = new int[2] ;
 				view.getLocationInWindow(location);//获取点击视图的坐标
 				popWin.showAtLocation(parent, Gravity.LEFT | Gravity.TOP, location[0], location[1]);
@@ -114,12 +114,10 @@ public class AppManagerActivity extends Activity {
 	}
 	
 	private void dismissPopWindow() {
-		if (null == tvPop) {
-			tvPop = new TextView(AppManagerActivity.this);
-			tvPop.setTextColor(Color.RED);
-			tvPop.setTextSize(20);
+		if (null == popWin) {
+			View view = View.inflate(this, R.layout.popup_app_item, null);
 			//弹出窗口，包裹类容容
-			popWin = new PopupWindow(tvPop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			popWin = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
 		popWin.dismiss();
 	}
@@ -162,7 +160,7 @@ public class AppManagerActivity extends Activity {
 	protected void onDestroy() {
 		if (null != popWin && popWin.isShowing()) {	//不这样做会出现 窗体内存泄露
 			dismissPopWindow();
-			tvPop = null;
+//			tvPop = null;
 			popWin = null;
 		}
 		super.onDestroy();
