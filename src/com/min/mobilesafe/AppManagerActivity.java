@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
@@ -12,6 +13,10 @@ import android.text.format.Formatter;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -24,6 +29,7 @@ import android.widget.TextView;
 
 import com.min.mobilesafe.domain.AppInfo;
 import com.min.mobilesafe.engine.AppInfoProvider;
+import com.min.mobilesafe.utils.DensityUtil;
 
 public class AppManagerActivity extends Activity {
 
@@ -108,16 +114,35 @@ public class AppManagerActivity extends Activity {
 //				tvPop.setText(appInfo.packName);
 				int location[] = new int[2] ;
 				view.getLocationInWindow(location);//获取点击视图的坐标
-				popWin.showAtLocation(parent, Gravity.LEFT | Gravity.TOP, location[0], location[1]);
+				//为了适配屏幕，需要把px转成dip
+				int x = DensityUtil.px2dip(AppManagerActivity.this, 60);
+				popWin.showAtLocation(parent, Gravity.LEFT | Gravity.TOP, x, location[1]);
+				//获取类容视图
+				View contentView = popWin.getContentView();
+				//给内容视图 加上动画,从左边线的中间位置变化
+				ScaleAnimation sa = new ScaleAnimation(0f, 1f, 0f, 1f, 
+						Animation.RELATIVE_TO_SELF, 0,	//动画锚点x
+						Animation.RELATIVE_TO_SELF, 0.5f);//动画锚点y
+				sa.setDuration(200);
+				//不透明度
+				AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);
+				aa.setDuration(200);
+				AnimationSet set = new AnimationSet(false);
+				set.addAnimation(sa);
+				set.addAnimation(aa);
+				contentView.startAnimation(set);
 			}
 		});
 	}
 	
 	private void dismissPopWindow() {
 		if (null == popWin) {
+			//这个作为PopupWindow的ContentView
 			View view = View.inflate(this, R.layout.popup_app_item, null);
 			//弹出窗口，包裹类容容
 			popWin = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			// PopupWindow 是没有背景的，android中没有背景的窗口是不能播放动画效果的，所以加上一个背景
+			popWin.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//给一个透明的背景
 		}
 		popWin.dismiss();
 	}
@@ -175,24 +200,23 @@ public class AppManagerActivity extends Activity {
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			if (0 == position) {
+			
+			if (0 == position) {//分组1
 				TextView tv = new TextView(AppManagerActivity.this);
 				tv.setBackgroundColor(Color.GRAY);
 				tv.setText("系统程序：" + sysAppInfos.size() + "个");
 				return tv;
-			} else if (sysAppInfos.size() + 1 == position) {
+			} else if (sysAppInfos.size() + 1 == position) {//分组2
 				TextView tv = new TextView(AppManagerActivity.this);
 				tv.setBackgroundColor(Color.GRAY);
 				tv.setText("应用程序：" + userAppInfos.size() + "个");
