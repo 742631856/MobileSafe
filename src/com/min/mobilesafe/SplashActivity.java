@@ -22,8 +22,10 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -117,8 +119,61 @@ public class SplashActivity extends Activity {
 		findViewById(R.id.rl_root_splash).startAnimation(aa);	//动画有效，可以作为“视图切换”动画
 		
 		copyDB();
+		installShortcut();
 	}
 	
+	/**
+	 * 安装桌面快捷方式
+	 */
+	private void installShortcut() {
+		/*
+		 <receiver
+            android:name="com.android.launcher2.InstallShortcutReceiver"
+            android:permission="com.android.launcher.permission.INSTALL_SHORTCUT">
+            <intent-filter>
+                <action android:name="com.android.launcher.action.INSTALL_SHORTCUT" />
+            </intent-filter>
+        </receiver> 
+		 */
+		
+		SharedPreferences sp = getSharedPreferences(SPKeys.KEY_SP_NAME, MODE_PRIVATE);
+		if (!sp.getBoolean(SPKeys.KEY_SHORTCUT_CREATED, false)) {
+			// 都是需要权限的， 两种方式的权限不同
+			//这个是用 Activity 的方式
+			/*Intent intent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
+			startActivity(intent);*/
+			
+			//这个是 发送广播的方式，不同的 启动器 可能 action不同， 权限字符串也可能不同
+			Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+			// 不允许重复创建
+			intent.putExtra("duplicate", false);
+			
+			//两种方式都要设置
+			intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "手机卫士快捷");
+			// icon两种设置方式
+			intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+//			intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_launcher));
+			
+			//点击快捷方式的意图
+			Intent launcherIntent = new Intent();
+			//非环保方式的快捷方式，  当app卸载后快捷方式还在
+//			launcherIntent.setAction(Intent.ACTION_MAIN);
+//			launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+//			intent.setClassName(getPackageName(), SplashActivity.class.getName());
+			
+			//环保方式 ,当app卸载后快捷方式不在
+			launcherIntent.setAction("com.min.mobilesafe.HA_SHORTCUT");
+			launcherIntent.addCategory(Intent.CATEGORY_DEFAULT);
+			intent.setClassName(getPackageName(), HomeActivity.class.getName());
+			
+			intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launcherIntent);
+			
+			sendBroadcast(intent);
+//			Log.i("--->", "---> 创建快捷方式" + HomeActivity.class.getName());
+			sp.edit().putBoolean(SPKeys.KEY_SHORTCUT_CREATED, true).commit();
+		}
+	}
+
 	/**
 	 * 从assets文件夹下拷贝数据库到源码文件夹下, 在这之前要先将外部数据库文件拷贝到assets文件夹下
 	 */

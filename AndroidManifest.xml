@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.min.mobilesafe"
+<manifest package="com.min.mobilesafe"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 	<!-- installLocation="preferExternal" 优先考虑安装在外部存储 -->
 	
     <uses-sdk
@@ -31,6 +30,8 @@
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" /> 
 
     <application
         android:allowBackup="true"
@@ -50,7 +51,13 @@
         </activity>
         <activity
             android:name="com.min.mobilesafe.HomeActivity"
-            android:exported="false" />
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.min.mobilesafe.HA_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!-- exported参数是表示是否暴露给外部应用，提交到软件中心时会用到 -->
         <activity android:name="com.min.mobilesafe.SettingActivity" />
         <activity android:name="com.min.mobilesafe.LostFindActivity" />

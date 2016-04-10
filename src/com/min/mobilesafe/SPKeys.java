@@ -45,4 +45,8 @@ public interface SPKeys {
 	 * 归属地显示框上次显示的y坐标
 	 */
 	String KEY_ADDRESS_SHOW_Y = "addressShowY";
+	/**
+	 * 是否创建过快捷方式
+	 */
+	String KEY_SHORTCUT_CREATED = "shortcutCreated";
 }
