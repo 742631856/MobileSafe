@@ -49,4 +49,8 @@ public interface SPKeys {
 	 * 是否创建过快捷方式
 	 */
 	String KEY_SHORTCUT_CREATED = "shortcutCreated";
+	/**
+	 * 是否显示系统进程
+	 */
+	String KEY_SHOW_SYSTEM_PROCESS = "showSystemProcess";
 }

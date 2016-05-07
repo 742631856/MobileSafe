@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+        style="@style/TextTitleStyle"
+        android:text="@string/title_activity_task_setting" />
+
+    <CheckBox
+        android:id="@+id/cb_show_sys_pro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="显示系统进程" />
+
+    <CheckBox
+        android:id="@+id/cb_auto_clean"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="锁屏自动清理" />
+
+</LinearLayout>

@@ -20,5 +20,7 @@
     <string name="add">添加</string>
     <string name="title_activity_app_manager">AppManagerActivity</string>
     <string name="app_manager">软件管理</string>
+    <string name="title_activity_task_manager">进程管理</string>
+    <string name="title_activity_task_setting">进程设置</string>
 
 </resources>

@@ -174,7 +174,6 @@ public class AppManagerActivity extends Activity implements OnClickListener {
 			case R.id.ll_share:
 				shareApplication();
 				break;
-	
 			default:
 				break;
 		}
